@@ -1,6 +1,6 @@
 from datetime import *
 from pygame import mixer
-
+from GUI import GUI
 
 class Alarm:
     def __init__(self,destination_time=None):
@@ -17,10 +17,10 @@ class Alarm:
         
 
 
-    def get_user_time(self):
+    def set_user_time(self, user_time):
 
         try:
-            hours, minutes, seconds = map(int,input('enter a time (HH:MM:SS) :\n').split(':'))
+            hours, minutes, seconds = map(int,user_time.split(':'))
             self.destination_time = time(hours, minutes, seconds)
 
         except ValueError:
@@ -28,22 +28,27 @@ class Alarm:
         
 
 
-    def run_alarm_clock(self):
-        while True:
+    def get_current_time(self):
+      
             now = datetime.now()
             current_time = time(now.hour, now.minute, now.second)
-            
-            if current_time >= self.destination_time:
-                break
-        return True
+            return current_time
+          
     
+    def get_time_left(self, current_time):
+        time_left = datetime.combine(
+            date.today(), self.destination_time) - datetime.combine(date.today(), current_time)
+
+        return time_left
+
+
 
     def play_music(self):
         mixer.music.play()
 
 
     def stop_music(self):
-    
+        
         mixer.music.stop()
 
     

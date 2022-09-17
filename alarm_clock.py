@@ -1,41 +1,55 @@
 from alarm import Alarm
-from GUI import AppGUI
-from PyQt5.QtWidgets import QApplication
-import sys
+from tkinter import *
+from PIL import Image, ImageTk
+from GUI import GUI
 from datetime import *
 
-def main():
-    
-    alarm = Alarm()
+def run_clock():
+  
 
-    h, m, s = map(int,win.user_time.split(':'))
-    dest = time(h,m,s)
-    alarm.destination_time = dest
-    # sys.exit(app.exec_())
-    alarm.set_audio_mixer('alarm.mp3',1)
-    # alarm.get_user_time()
-    is_now = alarm.run_alarm_clock()
-    if is_now:
-        print('time is up!')
-        alarm.play_music()
-        stop = input('Pleas enter (s) to stop the alarm : ')
-        if stop == 's':
-            alarm.stop_music()
+    alarm.set_user_time(app.inp.get())
+    if ValueError:
+        app.set_error('invalid time')
+
+    app.bt['state'] = DISABLED
+    app.bt_stop['state'] = 'active'
+    app.inp.delete(0, 'end')
     
+    while True:
+        
+        current_time = alarm.get_current_time()
+        time_left = alarm.get_time_left(current_time)
+
+        app.set_time_left(time_left)
+
+        app.window.update()
+        if current_time >= alarm.destination_time:
+                break   
+        
+
+    
+    alarm.play_music()
+    
+
+
+
 
 
 if __name__ == '__main__':
-    app = QApplication(sys.argv)
-    win = AppGUI()
-    win.show()
-    app.exec()
-    if win.user_time is not None:
-        app.exit()
-        win.close()
-        main()
     
+    app = GUI('300x200', 'alarm Clock')
+    alarm = Alarm()
+    alarm.set_audio_mixer('alarm.mp3',1)
+
+    app.config_icon('logo.png')
+
+    app.function = run_clock
+    app.stop_func = alarm.stop_music
+    app.set_frames()
+    app.set_buttons()
+    app.set_labels()
+    app.set_entries()
 
 
 
-
-
+    app.window.mainloop()

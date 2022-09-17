@@ -1,39 +1,82 @@
-from PyQt5.QtWidgets import QApplication,QLineEdit,QWidget,QFormLayout, QPushButton
+from ctypes import resize
+from tkinter import *
+from turtle import heading
+from PIL import Image, ImageTk
 
-from PyQt5.QtCore import Qt
-import sys
-app = QApplication(sys.argv)
-class AppGUI (QWidget):
-        def __init__(self,parent=None):
-                super().__init__(parent)
+
+class GUI:
+        def __init__(self, geometry, title):
+                self.window = Tk()
+                self.window.geometry(geometry)
+                self.window.title(title)
+                self.function = None
+                self.stop_func = None
+                self.color = 'gray'
+                self.window.resizable(False, False)
                 
-                self.setGeometry(100, 100, 400, 400)
-                self.user_time = None
-                self.e3 = QLineEdit()
-                self.e3.setInputMask("99:99:99")
+                self.time = StringVar()
 
-               
 
-                self.button = QPushButton('set', self)
-                self.button.clicked.connect(self.textchanged)
+        def config_icon(self, iconpath):
+                ico = Image.open(iconpath)
+                photo = ImageTk.PhotoImage(ico)
+                self.window.wm_iconphoto(False, photo)
 
-                self.button.move(100,100)
+        def set_frames(self):
+                self.inp1 = Frame(self.window, highlightbackground=self.color, height='100', width='300')
+                self.inp1.pack(side='top')
 
-                flo = QFormLayout()
-               
-                flo.addRow("Input Mask",self.e3)
-              
-               
-                self.setLayout(flo)
-                self.setWindowTitle("QLineEdit Example")
+        
 
-        def textchanged(self,text):
-                self.button.setEnabled(False)
-                self.user_time = self.e3.text()
-                app.exit()
 
-if __name__ == "__main__":
-        app = QApplication(sys.argv)
-        win = lineEditDemo()
-        win.show()
-        sys.exit(app.exec_())
+        def set_buttons(self):
+
+                self.bt = Button(self.inp1, text='set', justify='center', width=20, bg='green', command=self.function)
+                self.bt.grid(column=2, row=10, pady=20)
+                
+                self.bt_stop = Button(self.inp1, text='stop alarm', width=20, command=self.stop_func, state=DISABLED)
+                self.bt_stop.grid(column=2, row=20, pady=10)
+        def set_labels(self):
+                lbl = Label(self.inp1, text='enter time', bg=self.color)
+                lbl.grid(column=2, row=2, pady=5)
+
+
+        def set_entries(self):
+                self.inp = Entry(self.inp1, width=30, textvariable=self.time)
+                self.inp.grid(column=2, row=8)
+
+
+        def set_error(self, text):
+                lbl_eror = Label(self.inp1, text='enter time', bg=self.color)
+                lbl_eror.grid(column=2, row=4, pady=5)
+
+
+        def set_time_left(self, time_left):
+                left_T = Label(self.inp1, text=f'time left : {time_left}')
+                left_T.grid(column=2,row=6, pady=10)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# class GUI:
+#         def __init__(self) -> None:
+#                 self.window = Tk()
+
+# if __name__ == '__main__':
