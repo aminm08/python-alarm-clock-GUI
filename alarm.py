@@ -1,30 +1,44 @@
 from datetime import *
 from pygame import mixer
-from GUI import GUI
+from tkinter import messagebox
+
+
+
 
 class Alarm:
+
+
     def __init__(self,destination_time=None):
         self.destination_time = destination_time
 
-        
+
+    #alarm sound effect
     def set_audio_mixer(self, file_name ,volume=1):
         try:
             mixer.init()
             mixer.music.load(file_name)
             mixer.music.set_volume(volume)
         except TypeError:
+            
             raise TypeError('audio file must be str and volume must be int')
         
 
-
+    # set user time as time object 
+    #you can implement this method if you don't need GUI 
     def set_user_time(self, user_time):
+        if user_time:
+            try:
+                hours, minutes, seconds = map(int,user_time.split(':'))
+                self.destination_time = time(hours, minutes, seconds)
+                return 
 
-        try:
-            hours, minutes, seconds = map(int,user_time.split(':'))
-            self.destination_time = time(hours, minutes, seconds)
+            except ValueError:
+                messagebox.showerror('Value Error', 'Invalid time \n plz enter time using HH:MM:SS format')
+                raise ValueError('invalid time \n plz enter time using HH:MM:SS format')
 
-        except ValueError:
-            raise ValueError('invalid datetime')
+
+        messagebox.showerror('Error', 'Enter something')
+        raise Exception('no input')
         
 
 
@@ -35,11 +49,18 @@ class Alarm:
             return current_time
           
     
+    
     def get_time_left(self, current_time):
-        time_left = datetime.combine(
-            date.today(), self.destination_time) - datetime.combine(date.today(), current_time)
+        if current_time and self.destination_time:
+            try:
+                time_left = datetime.combine(
+                    date.today(), self.destination_time) - datetime.combine(date.today(), current_time)
+                return time_left
 
-        return time_left
+            except ValueError:
+                raise ValueError('plz enter a valid current time')
+        
+        
 
 
 
