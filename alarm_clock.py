@@ -2,6 +2,7 @@ from tkinter import *
 from datetime import *
 from alarm import Alarm
 from GUI import GUI
+from database import DB
 from pygame.time import Clock
 
 def run_clock():
@@ -10,7 +11,9 @@ def run_clock():
     #set the destination time
 
     alarm.set_user_time(app.time_input.get(), app.stop_watch_choice.get())
-
+    
+    db.add_time_to_db(str(alarm.destination_time))
+    print(db.get_all_records())
     # applying changes on GUI
     app.btn_start['state'] = DISABLED
     app.time_input.delete(0, 'end')
@@ -48,7 +51,12 @@ if __name__ == '__main__':
     app = GUI('300x200', 'alarm Clock')
     alarm = Alarm()
     clock = Clock()
+    db = DB()
     
+    #database table creation
+    db.create_table()
+
+
     #config icon forn and audio
     alarm.set_audio_mixer('alarm.mp3',1)
     app.config_icon('logo.png')
