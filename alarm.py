@@ -25,11 +25,23 @@ class Alarm:
 
     # set user time as time object 
     #you can implement this method if you don't need GUI 
-    def set_user_time(self, user_time):
+    def set_user_time(self, user_time, is_stop_watch):
         if user_time:
+          
             try:
+                now = datetime.now()
                 hours, minutes, seconds = map(int,user_time.split(':'))
-                self.destination_time = time(hours, minutes, seconds)
+                
+                if is_stop_watch != 1:
+                    self.destination_time = time(hours,minutes,seconds)
+                else:
+                  
+                    self.destination_time = time(
+                        hour=now.hour+hours,
+                        minute=now.minute+minutes,
+                        second=now.second+seconds
+                        )
+                
                 return 
 
             except ValueError:
@@ -39,6 +51,7 @@ class Alarm:
 
         messagebox.showerror('Error', 'Enter something')
         raise Exception('no input')
+
         
 
 
@@ -60,6 +73,7 @@ class Alarm:
             except ValueError:
                 raise ValueError('plz enter a valid current time')
         
+
         
 
 

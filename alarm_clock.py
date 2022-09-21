@@ -8,17 +8,19 @@ def run_clock():
   
 
     #set the destination time
-    alarm.set_user_time(app.time_input.get())
+
+    alarm.set_user_time(app.time_input.get(), app.stop_watch_choice.get())
 
     # applying changes on GUI
     app.btn_start['state'] = DISABLED
     app.time_input.delete(0, 'end')
     app.time_input.destroy()
+    app.check_button.destroy()
     app.lbl.destroy()
     
     #alarm clock
     while True:
-        
+       
         current_time = alarm.get_current_time()
         time_left = alarm.get_time_left(current_time)
 
@@ -61,7 +63,8 @@ if __name__ == '__main__':
     app.set_buttons()
     app.set_labels()
     app.set_entries()
+    app.set_check_button()
 
-
-
+    app.window.protocol("WM_DELETE_WINDOW", app.on_close)
     app.window.mainloop()
+

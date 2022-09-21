@@ -1,4 +1,6 @@
+
 from tkinter import *
+from tkinter import messagebox
 from tkinter.font import Font
 from PIL import Image, ImageTk
 
@@ -20,6 +22,7 @@ class GUI:
                 self.window.resizable(False, False)
                 
                 self.user_time = StringVar()
+                self.stop_watch_choice = IntVar()
 
 
         def config_font(self, family, size, weight='normal'):
@@ -48,7 +51,7 @@ class GUI:
 
                 self.btn_start = Button(self.frame2, text='Start', justify='center',bg='#6CD300',fg='black', width=10, command=self.run_clock_func, bd=6)
                 self.btn_start.grid(column=2, row=14, pady=15, padx=5)
-                
+
                 self.btn_stop = Button(self.frame2, text='stop alarm', width=10, bg='#6CD300', fg='black', command=self.stop_func, state=DISABLED, bd=6)
                 self.btn_stop.grid(column=3, row=14, pady=15, padx=5)
 
@@ -67,12 +70,18 @@ class GUI:
                 self.time_input.grid(column=2, row=10)
                 self.time_input.insert(0, 'HH:MM:SS')
 
+        def set_check_button(self):
+                self.check_button = Checkbutton(self.frame1, text='stop_watch?', variable=self.stop_watch_choice, onvalue=True, offvalue=False)
+                self.check_button.grid(column=2, row=13)
+
 
         def set_time_left(self, time_left):
                 left_Time = Label(self.frame1, text=f'time left : {time_left}')
                 left_Time.grid(column=2,row=6, pady=10)
 
-
+        def on_close(self):
+                if messagebox.askokcancel('Quit', "do you want to quit?"):
+                        self.window.destroy()
 
 
 
