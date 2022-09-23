@@ -1,3 +1,4 @@
+
 from tkinter import *
 from datetime import *
 from alarm import Alarm
@@ -10,7 +11,7 @@ def run_clock():
 
     #set the destination time
 
-    alarm.set_user_time(app.time_input.get(), app.stop_watch_choice.get())
+    alarm.set_user_time(app.time_input.get(), app.from_now_choice.get())
     user_time = alarm.destination_time
 
     #add time to db
@@ -45,12 +46,12 @@ def run_clock():
                 break   
 
         # to run the loop twice/second
-        clock.tick(2)
+        clock.tick(3)
         
 
     
     alarm.play_music()
-    
+    app.set_restart_btn()
     app.btn_stop['state'] = 'active'
     
 
@@ -58,9 +59,9 @@ def show_history():
     history = db.get_all_records()
     message = ''
     
-    for i in history[:6]:
+    for i in history:
         print(i)
-        message = message.join(f'{i[0]}.({i[1]})\n')
+        message += f'{i[0]}.({i[1]})\n'
 
     app.add_message('time history', message) if message else app.add_message('time_history', 'no history')
     

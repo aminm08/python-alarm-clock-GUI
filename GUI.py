@@ -1,8 +1,8 @@
-
 from tkinter import *
 from tkinter import messagebox
 from tkinter.font import Font
 from PIL import Image, ImageTk
+ 
 
 
 
@@ -25,7 +25,7 @@ class GUI:
                 self.window.resizable(False, False)
                 
                 self.user_time = StringVar()
-                self.stop_watch_choice = IntVar()
+                self.from_now_choice = IntVar()
 
 
         def config_font(self, family, size, weight='normal'):
@@ -86,7 +86,7 @@ class GUI:
                         self.time_input.insert(0, db_time)
 
         def set_check_button(self):
-                self.check_button = Checkbutton(self.frame1, text='stop_watch?', variable=self.stop_watch_choice, onvalue=True, offvalue=False)
+                self.check_button = Checkbutton(self.frame1, text='from now?', variable=self.from_now_choice, onvalue=True, offvalue=False)
                 self.check_button.grid(column=2, row=13)
 
 

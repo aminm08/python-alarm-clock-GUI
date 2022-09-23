@@ -25,7 +25,7 @@ class Alarm:
 
     # set user time as time object 
 
-    def set_user_time(self, user_time, is_stop_watch):
+    def set_user_time(self, user_time, is_from_now):
         if user_time:
           
             try:
@@ -33,7 +33,7 @@ class Alarm:
                 hours, minutes, seconds = map(int,user_time.split(':'))
                 
                 # not stop watch
-                if is_stop_watch !=1:
+                if is_from_now !=1:
                     self.destination_time = datetime(now.year, now.month, now.day,hours,minutes,seconds)
               
                 else:
