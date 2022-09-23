@@ -1,4 +1,3 @@
-from email import message
 from tkinter import *
 from datetime import *
 from alarm import Alarm
