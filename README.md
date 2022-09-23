@@ -1,4 +1,3 @@
 # python-alarm-clock-GUI
-
-
-<h1>Alarm clock </h1>
+<h3>How to install</h3>
+<sub>python -m venv venv</sub>
