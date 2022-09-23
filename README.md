@@ -1,6 +1,8 @@
 # python-alarm-clock-GUI
 <h3>How to install:</h3>
-<sub>python -m venv venv</sub>
-<sub>.\venv\Script\activate</sub>
-<sub>pip install-r requirements.txt</sub>
-<sub>python alarm_clock.py</sub>
+<ul>
+<li>python -m venv venv</li>
+<li>.\venv\Script\activate</li>
+<li>pip install-r requirements.txt</li>
+<li>python alarm_clock.py</li>
+</ul>
