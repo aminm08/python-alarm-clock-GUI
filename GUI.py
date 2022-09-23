@@ -16,6 +16,9 @@ class GUI:
                 #functions
                 self.run_clock_func = None
                 self.stop_func = None 
+                self.delete_history_func = None
+                self.show_history_func = None
+                self.restart_func = None
                 #color
                 self.color = 'gray'
                 #not resizable window
@@ -50,11 +53,22 @@ class GUI:
         def set_buttons(self):
 
                 self.btn_start = Button(self.frame2, text='Start', justify='center',bg='#6CD300',fg='black', width=10, command=self.run_clock_func, bd=6)
-                self.btn_start.grid(column=2, row=14, pady=15, padx=5)
+                self.btn_start.grid(column=2, row=14, pady=10, padx=5)
 
                 self.btn_stop = Button(self.frame2, text='stop alarm', width=10, bg='#6CD300', fg='black', command=self.stop_func, state=DISABLED, bd=6)
-                self.btn_stop.grid(column=3, row=14, pady=15, padx=5)
+                self.btn_stop.grid(column=3, row=14, pady=10, padx=5)
 
+                self.btn_history = Button(self.frame2, text='show history', width=10, bg='#6CD300', fg='black', command=self.show_history_func, bd=6)
+                self.btn_history.grid(column=2, row=15, pady=3, padx=5)
+
+                self.btn_delete_history = Button(self.frame2, text='delete history', width=10, bg='#6CD300', fg='black', command=self.delete_history_func, bd=6)
+                self.btn_delete_history.grid(column=3, row=15, pady=3, padx=5)
+
+               
+
+        def set_restart_btn(self):
+                self.btn_restart = Button(self.frame2, text='restart', width=10, bg='#6CD300', fg='black', command=self.restart_func, bd=6)
+                self.btn_restart.grid(column=2, row=15, pady=3, padx=5)
 
         def set_labels(self):
                 self.lbl = Label(self.frame1, text='enter time:', fg='red', font=self.font1)
@@ -68,7 +82,8 @@ class GUI:
         def set_entries(self, db_time):
                 self.time_input = Entry(self.frame1, width=30, textvariable=self.user_time, )
                 self.time_input.grid(column=2, row=10)
-                self.time_input.insert(0, db_time)
+                if db_time:
+                        self.time_input.insert(0, db_time)
 
         def set_check_button(self):
                 self.check_button = Checkbutton(self.frame1, text='stop_watch?', variable=self.stop_watch_choice, onvalue=True, offvalue=False)
@@ -82,6 +97,9 @@ class GUI:
         def on_close(self):
                 if messagebox.askokcancel('Quit', "do you want to quit?"):
                         self.window.destroy()
+
+        def add_message(self, title:str, message:str):
+                messagebox.showinfo(title, message)
 
 
 

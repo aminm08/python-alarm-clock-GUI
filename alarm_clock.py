@@ -1,3 +1,4 @@
+from email import message
 from tkinter import *
 from datetime import *
 from alarm import Alarm
@@ -11,17 +12,21 @@ def run_clock():
     #set the destination time
 
     alarm.set_user_time(app.time_input.get(), app.stop_watch_choice.get())
-
+    user_time = alarm.destination_time
 
     #add time to db
-    db.add_time_to_db(str(alarm.destination_time))
+    db.add_time_to_db(str(time(user_time.hour, user_time.minute, user_time.second)))
     
+
     # applying changes on GUI
     app.btn_start['state'] = DISABLED
     app.time_input.delete(0, 'end')
     app.time_input.destroy()
     app.check_button.destroy()
     app.lbl.destroy()
+    app.btn_history.destroy()
+    app.btn_delete_history.destroy()
+
     
     #alarm clock
     while True:
@@ -29,7 +34,7 @@ def run_clock():
         current_time = alarm.get_current_time()
 
 
-        alarm.transform_to_datetime()
+        alarm.add_destination_time_date()
         time_left = alarm.get_time_left(current_time)
 
        
@@ -39,15 +44,38 @@ def run_clock():
 
         if current_time == alarm.destination_time:
                 break   
+
         # to run the loop twice/second
         clock.tick(2)
         
 
     
     alarm.play_music()
+    
     app.btn_stop['state'] = 'active'
     
 
+def show_history():
+    history = db.get_all_records()
+    message = ''
+    
+    for i in history[:6]:
+        print(i)
+        message = message.join(f'{i[0]}.({i[1]})\n')
+
+    app.add_message('time history', message) if message else app.add_message('time_history', 'no history')
+    
+
+
+
+def restart():
+    app.frame1.destroy()
+    app.frame2.destroy()
+    app.set_frames()
+    app.set_buttons()
+    app.set_labels()
+    app.set_entries(alarm.config_user_previous(last_hour))
+    app.set_check_button()
 
 
 
@@ -65,19 +93,22 @@ if __name__ == '__main__':
     last_hour = db.read_last_time()
    
     #config icon forn and audio
-    alarm.set_audio_mixer('alarm.mp3',1)
-    app.config_icon('logo.png')
+    alarm.set_audio_mixer('assets/alarm.mp3',1)
+    app.config_icon('assets/logo.png')
     app.config_font('Helvetica', 10, 'bold')
 
     #define alarm functions
     app.run_clock_func = run_clock
     app.stop_func = alarm.stop_music
+    app.delete_history_func = db.delete_all_records
+    app.show_history_func = show_history
+    app.restart_func = restart
 
     # set GUI
     app.set_frames()
     app.set_buttons()
     app.set_labels()
-    app.set_entries(str(last_hour[0][1]))
+    app.set_entries(alarm.config_user_previous(last_hour))
     app.set_check_button()
 
     app.window.protocol("WM_DELETE_WINDOW", app.on_close)

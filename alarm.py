@@ -32,19 +32,14 @@ class Alarm:
                 now = datetime.now()
                 hours, minutes, seconds = map(int,user_time.split(':'))
                 
-                if is_stop_watch != 1:
+                # not stop watch
+                if is_stop_watch !=1:
                     self.destination_time = datetime(now.year, now.month, now.day,hours,minutes,seconds)
+              
                 else:
-                  
-                    self.destination_time = datetime(
-                        now.year,
-                        now.month,
-                        now.day,
-                        hour=now.hour+hours,
-                        minute=now.minute+minutes,
-                        second=now.second+seconds
-                        )
-                
+                    now = datetime(now.year, now.month, now.day, now.hour, now.minute, now.second)
+                    self.destination_time = now+timedelta(hours=hours, minutes=minutes, seconds=seconds)
+                    
                 return 
 
             except ValueError:
@@ -76,6 +71,8 @@ class Alarm:
             except ValueError:
                 raise ValueError('plz enter a valid current time')
         
+
+
     # for the other day requests
     def add_destination_time_date(self):
         now = datetime.now()
@@ -83,11 +80,16 @@ class Alarm:
 
         if time_user < self.get_current_time():
             self.destination_time = datetime(now.year, now.month, now.day+1, time_user.hour, time_user.minute, time_user.second)
+
+
                
-       
+    def config_user_previous(self, last_user_input):
+        if last_user_input:
+            return str(last_user_input[0][1])
+        return "HH:MM:SS"
 
         
-
+    
 
     def play_music(self):
         mixer.music.play()
