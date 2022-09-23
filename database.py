@@ -8,12 +8,22 @@ class DB:
 
 
     def create_table(self):
+
+        """
+        CREATE TIME TABLE TO SAVE USER'S TIMES
+
+        """
         self.cur.execute("CREATE TABLE IF NOT EXISTS time(id INTEGER PRIMARY KEY, user_time TEXT)")
         self.con.commit()
 
-    def add_time_to_db(self, *time):
+    def add_time_to_db(self, *time:str):
         for i in time:
-            self.cur.execute("""INSERT INTO time(user_time) VALUES (?) """, (i, ))
+            
+            if type(i) == str:
+                self.cur.execute("""INSERT INTO time(user_time) VALUES (?) """, (i, ))
+                self.con.commit()
+            else:
+                print('Type Eror: input %s must be whole numeric string' % i )
             
 
     def read_last_time(self):
@@ -30,4 +40,3 @@ class DB:
         self.cur.execute('DELETE FROM time')
         self.con.commit()
 
-    

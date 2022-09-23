@@ -65,10 +65,10 @@ class GUI:
                 self.title_lbl.grid(column=2, row=0)
 
 
-        def set_entries(self):
+        def set_entries(self, db_time):
                 self.time_input = Entry(self.frame1, width=30, textvariable=self.user_time, )
                 self.time_input.grid(column=2, row=10)
-                self.time_input.insert(0, 'HH:MM:SS')
+                self.time_input.insert(0, db_time)
 
         def set_check_button(self):
                 self.check_button = Checkbutton(self.frame1, text='stop_watch?', variable=self.stop_watch_choice, onvalue=True, offvalue=False)

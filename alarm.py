@@ -24,7 +24,7 @@ class Alarm:
         
 
     # set user time as time object 
-    #you can implement this method if you don't need GUI 
+
     def set_user_time(self, user_time, is_stop_watch):
         if user_time:
           
@@ -33,10 +33,13 @@ class Alarm:
                 hours, minutes, seconds = map(int,user_time.split(':'))
                 
                 if is_stop_watch != 1:
-                    self.destination_time = time(hours,minutes,seconds)
+                    self.destination_time = datetime(now.year, now.month, now.day,hours,minutes,seconds)
                 else:
                   
-                    self.destination_time = time(
+                    self.destination_time = datetime(
+                        now.year,
+                        now.month,
+                        now.day,
                         hour=now.hour+hours,
                         minute=now.minute+minutes,
                         second=now.second+seconds
@@ -58,24 +61,32 @@ class Alarm:
     def get_current_time(self):
       
             now = datetime.now()
-            current_time = time(now.hour, now.minute, now.second)
-            return current_time
+            now = datetime(now.year, now.month, now.day,now.hour,now.minute,now.second)
+            return now
           
     
     
     def get_time_left(self, current_time):
         if current_time and self.destination_time:
             try:
-                time_left = datetime.combine(
-                    date.today(), self.destination_time) - datetime.combine(date.today(), current_time)
+               
+                time_left = self.destination_time - current_time
                 return time_left
 
             except ValueError:
                 raise ValueError('plz enter a valid current time')
         
+    # for the other day requests
+    def add_destination_time_date(self):
+        now = datetime.now()
+        time_user = self.destination_time
+
+        if time_user < self.get_current_time():
+            self.destination_time = datetime(now.year, now.month, now.day+1, time_user.hour, time_user.minute, time_user.second)
+               
+       
 
         
-
 
 
     def play_music(self):
